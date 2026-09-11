@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eshwaran — Full Stack Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #12161a;
+        --bg-panel: #1a2026;
+        --bg-panel-2: #1f262d;
+        --line: #2c343c;
+        --text: #e7eaec;
+        --text-muted: #8b96a1;
+        --text-dim: #5c6873;
+        --accent: #4fa3d1;
+        --accent-dim: #2e4a5a;
+        --warn: #e3a23c;
+        --radius: 3px;
+        --mono: "IBM Plex Mono", monospace;
+        --display: "Space Grotesk", sans-serif;
+        --body: "Inter", sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        * {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        background-image:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 64px 64px;
+        background-attachment: fixed;
+        background-position: -1px -1px;
+        color: var(--text);
+        font-family: var(--body);
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      a:focus-visible,
+      button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+      .wrap {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 32px;
+      }
+      section {
+        padding: 96px 0;
+      }
+      @media (max-width: 720px) {
+        section {
+          padding: 64px 0;
+        }
+        .wrap {
+          padding: 0 20px;
+        }
+      }
+
+      /* ---------- NAV ---------- */
+      header.site {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        background: rgba(18, 22, 26, 0.88);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--line);
+      }
+      header.site .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 18px;
+        padding-bottom: 18px;
+      }
+      .logo {
+        font-family: var(--mono);
+        font-size: 14px;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .logo .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #5cd68a;
+        box-shadow: 0 0 6px #5cd68a;
+      }
+      nav.links {
+        display: flex;
+        gap: 28px;
+        font-family: var(--mono);
+        font-size: 13px;
+      }
+      nav.links a {
+        color: var(--text-muted);
+      }
+      nav.links a:hover {
+        color: var(--text);
+        text-decoration: none;
+      }
+      @media (max-width: 600px) {
+        nav.links {
+          gap: 16px;
+        }
+        nav.links a:nth-child(3) {
+          display: none;
+        }
+      }
+
+      /* ---------- HERO ---------- */
+      .hero {
+        padding-top: 72px;
+        padding-bottom: 72px;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 56px;
+        align-items: start;
+      }
+      @media (max-width: 860px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--accent);
+        margin: 0 0 18px;
+      }
+      h1.name {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: clamp(40px, 6vw, 68px);
+        line-height: 1.03;
+        margin: 0 0 20px;
+        letter-spacing: -0.01em;
+      }
+      .role {
+        font-family: var(--display);
+        font-weight: 500;
+        font-size: 22px;
+        color: var(--text-muted);
+        margin: 0 0 24px;
+      }
+      .pitch {
+        max-width: 56ch;
+        color: var(--text-muted);
+        font-size: 16.5px;
+        margin: 0 0 36px;
+      }
+      .pitch strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+      .cta-row {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        font-family: var(--body);
+        font-weight: 600;
+        font-size: 14.5px;
+        padding: 13px 22px;
+        border-radius: var(--radius);
+        border: 1px solid var(--line);
+        display: inline-block;
+      }
+      .btn:hover {
+        text-decoration: none;
+      }
+      .btn.primary {
+        background: var(--warn);
+        color: #1a1200;
+        border-color: var(--warn);
+      }
+      .btn.primary:hover {
+        background: #edb157;
+      }
+      .btn.ghost {
+        color: var(--text);
+        border-color: var(--line);
+      }
+      .btn.ghost:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: transparent;
+      }
+
+      /* ---------- PANEL (telemetry box) ---------- */
+      .panel {
+        background: var(--bg-panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+      .panel-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--line);
+        font-family: var(--mono);
+        font-size: 11.5px;
+        color: var(--text-dim);
+      }
+      .panel-head .blip {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+      .panel-body {
+        padding: 18px 16px;
+      }
+      .stack-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px dashed var(--line);
+        font-family: var(--mono);
+        font-size: 13px;
+      }
+      .stack-row:last-child {
+        border-bottom: none;
+      }
+      .stack-row .k {
+        color: var(--text-dim);
+      }
+      .stack-row .v {
+        color: var(--text);
+        text-align: right;
+      }
+      .panel-foot {
+        padding: 10px 16px;
+        border-top: 1px solid var(--line);
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text-dim);
+        display: flex;
+        justify-content: space-between;
+      }
+
+      /* ---------- SECTION HEADS ---------- */
+      .sec-head {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        margin-bottom: 40px;
+      }
+      .sec-num {
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--text-dim);
+      }
+      h2 {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 30px;
+        margin: 0;
+      }
+      .rule {
+        flex: 1;
+        height: 1px;
+        background: var(--line);
+      }
+
+      /* ---------- ABOUT ---------- */
+      .about-body {
+        max-width: 70ch;
+        font-size: 17px;
+        color: var(--text-muted);
+      }
+      .about-body p {
+        margin: 0 0 18px;
+      }
+      .about-body strong {
+        color: var(--text);
+      }
+
+      /* ---------- CAPABILITIES ---------- */
+      .cap-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--line);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+      @media (max-width: 760px) {
+        .cap-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .cap-cell {
+        background: var(--bg-panel);
+        padding: 26px 24px;
+      }
+      .cap-cell h3 {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        letter-spacing: 0.02em;
+        color: var(--accent);
+        margin: 0 0 16px;
+        text-transform: lowercase;
+      }
+      .cap-cell ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .cap-cell li {
+        font-size: 14.5px;
+        color: var(--text-muted);
+        padding: 6px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .cap-cell li:last-child {
+        border-bottom: none;
+      }
+
+      /* ---------- WORK / CASE STUDY ---------- */
+      .case {
+        display: grid;
+        grid-template-columns: 1fr 260px;
+        gap: 48px;
+        background: var(--bg-panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 40px;
+      }
+      @media (max-width: 860px) {
+        .case {
+          grid-template-columns: 1fr;
+          padding: 28px;
+        }
+      }
+      .case-tag {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--text-dim);
+        margin-bottom: 10px;
+      }
+      .case h3 {
+        font-family: var(--display);
+        font-size: 26px;
+        margin: 0 0 10px;
+        font-weight: 600;
+      }
+      .case .desc {
+        color: var(--text-muted);
+        font-size: 15.5px;
+        max-width: 60ch;
+        margin: 0 0 24px;
+      }
+      .case-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 28px;
+      }
+      .tag {
+        font-family: var(--mono);
+        font-size: 11.5px;
+        color: var(--text-muted);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 4px 9px;
+      }
+      .case-points {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 14px;
+      }
+      .case-points li {
+        display: grid;
+        grid-template-columns: 20px 1fr;
+        gap: 12px;
+        font-size: 14.5px;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+      .case-points li::before {
+        content: "—";
+        color: var(--accent);
+      }
+      .case-points strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .metric-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        background: var(--line);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        overflow: hidden;
+        align-self: start;
+      }
+      .metric {
+        background: var(--bg-panel-2);
+        padding: 18px 18px;
+      }
+      .metric .num {
+        font-family: var(--display);
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--warn);
+        line-height: 1;
+      }
+      .metric .lbl {
+        font-family: var(--mono);
+        font-size: 11.5px;
+        color: var(--text-dim);
+        margin-top: 8px;
+      }
+
+      /* ---------- NOW ---------- */
+      .now {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-family: var(--mono);
+        font-size: 14px;
+        color: var(--text-muted);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 16px 20px;
+        background: var(--bg-panel);
+      }
+      .now .blip {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #5cd68a;
+        box-shadow: 0 0 8px #5cd68a;
+        flex-shrink: 0;
+      }
+
+      /* ---------- CONTACT / FOOTER ---------- */
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 64px 0 40px;
+      }
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 40px;
+      }
+      @media (max-width: 760px) {
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      footer h2 {
+        margin-bottom: 16px;
+      }
+      footer .pitch {
+        margin-bottom: 28px;
+      }
+      .contact-list {
+        display: grid;
+        gap: 2px;
+        background: var(--line);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+      .contact-list a {
+        display: flex;
+        justify-content: space-between;
+        background: var(--bg-panel);
+        padding: 14px 18px;
+        font-family: var(--mono);
+        font-size: 13.5px;
+        color: var(--text);
+      }
+      .contact-list a:hover {
+        background: var(--bg-panel-2);
+        text-decoration: none;
+        color: var(--accent);
+      }
+      .contact-list span.arrow {
+        color: var(--text-dim);
+      }
+      .foot-meta {
+        margin-top: 56px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        font-family: var(--mono);
+        font-size: 11.5px;
+        color: var(--text-dim);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site">
+      <div class="wrap">
+        <div class="logo"><span class="dot"></span> ESHWARAN / ENG</div>
+        <nav class="links">
+          <a href="#about">about</a>
+          <a href="#capabilities">stack</a>
+          <a href="#work">work</a>
+          <a href="#contact">contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div>
+            <p class="eyebrow">/ full stack developer — chennai, in</p>
+            <h1 class="name">Eshwaran</h1>
+            <p class="role">
+              Building the systems that keep factories running.
+            </p>
+            <p class="pitch">
+              I design and build <strong>MaxMold</strong>, a multi-tenant SaaS
+              platform for industrial mould lifecycle management and IoT
+              monitoring — from Angular signal-based dashboards down to the
+              Spring Boot services and telemetry pipelines underneath them.
+            </p>
+            <div class="cta-row">
+              <a class="btn primary" href="#work">View the work</a>
+              <a class="btn ghost" href="#contact">Get in touch</a>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <span>SYSTEM.STACK</span><span class="blip"></span>
+            </div>
+            <div class="panel-body">
+              <div class="stack-row">
+                <span class="k">frontend</span
+                ><span class="v">Angular 22, TypeScript</span>
+              </div>
+              <div class="stack-row">
+                <span class="k">backend</span
+                ><span class="v">Java, Spring Boot</span>
+              </div>
+              <div class="stack-row">
+                <span class="k">data</span
+                ><span class="v">PostgreSQL, MongoDB</span>
+              </div>
+              <div class="stack-row">
+                <span class="k">messaging</span><span class="v">RabbitMQ</span>
+              </div>
+              <div class="stack-row">
+                <span class="k">auth</span><span class="v">Keycloak</span>
+              </div>
+              <div class="stack-row">
+                <span class="k">infra</span
+                ><span class="v">AWS EKS · S3 · IoT Core</span>
+              </div>
+              <div class="stack-row">
+                <span class="k">observability</span
+                ><span class="v">Grafana, OpenTelemetry</span>
+              </div>
+            </div>
+            <div class="panel-foot">
+              <span>STATUS: ACTIVE</span><span>MAINTWIZ TECHNOLOGIES</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="wrap">
+          <div class="sec-head">
+            <span class="sec-num">01</span>
+            <h2>About</h2>
+            <div class="rule"></div>
+          </div>
+          <div class="about-body">
+            <p>
+              I'm a full stack developer at
+              <strong>MaintWiz Technologies</strong> in Chennai, working on
+              <strong>MaxMold</strong> — a platform that gives manufacturers a
+              live, structured view of every mould and machine they run, instead
+              of spreadsheets and gut feel.
+            </p>
+            <p>
+              Most of my day lives in Angular: signal-based forms, dashboards
+              built on GridStack and ApexCharts, and performance work on
+              components that need to stay fast under real industrial data
+              volumes. On the other side, I work through the Spring Boot
+              services, Keycloak auth, and AWS infrastructure that keep the
+              platform multi-tenant and reliable.
+            </p>
+            <p>
+              I like the kind of problem where the fix is a genuinely better
+              algorithm or data structure, not just more code — and where the
+              end user is someone running a factory floor, not just another
+              dashboard.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="capabilities">
+        <div class="wrap">
+          <div class="sec-head">
+            <span class="sec-num">02</span>
+            <h2>What I work with</h2>
+            <div class="rule"></div>
+          </div>
+          <div class="cap-grid">
+            <div class="cap-cell">
+              <h3>frontend</h3>
+              <ul>
+                <li>Angular 22 (Signals, Signal Forms)</li>
+                <li>TypeScript</li>
+                <li>NG-ZORRO</li>
+                <li>ApexCharts</li>
+                <li>GridStack</li>
+              </ul>
+            </div>
+            <div class="cap-cell">
+              <h3>backend</h3>
+              <ul>
+                <li>Java / Spring Boot</li>
+                <li>PostgreSQL</li>
+                <li>MongoDB</li>
+                <li>RabbitMQ</li>
+                <li>Keycloak</li>
+              </ul>
+            </div>
+            <div class="cap-cell">
+              <h3>infra &amp; ops</h3>
+              <ul>
+                <li>AWS EKS · S3 · IoT Core</li>
+                <li>Terraform</li>
+                <li>Nginx</li>
+                <li>Grafana</li>
+                <li>OpenTelemetry</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="work">
+        <div class="wrap">
+          <div class="sec-head">
+            <span class="sec-num">03</span>
+            <h2>Selected work</h2>
+            <div class="rule"></div>
+          </div>
+
+          <div class="case">
+            <div>
+              <p class="case-tag">product / maintwiz technologies</p>
+              <h3>MaxMold — industrial mould lifecycle &amp; IoT platform</h3>
+              <p class="desc">
+                A multi-tenant SaaS platform that tracks mould and machine
+                health across a manufacturer's whole operation, combining
+                configuration, IoT telemetry, and live dashboards in one system.
+              </p>
+              <div class="case-tags">
+                <span class="tag">Angular 22</span>
+                <span class="tag">Spring Boot</span>
+                <span class="tag">AWS IoT Core</span>
+                <span class="tag">RabbitMQ</span>
+                <span class="tag">Keycloak</span>
+              </div>
+              <ul class="case-points">
+                <li>
+                  <strong
+                    >Rebuilt selection logic in a 645-node tree view</strong
+                  >
+                  from O(n²) to near-constant-time lookups using a computed
+                  flat-node signal and an index map, removing the dominant UI
+                  bottleneck.
+                </li>
+                <li>
+                  <strong
+                    >Migrated core forms to Angular's signal-first
+                    patterns</strong
+                  >
+                  — reactive validation, computed state, and toast-driven
+                  feedback — as part of an in-progress Angular 22 migration.
+                </li>
+                <li>
+                  <strong>Built the backend-driven dashboard system</strong> on
+                  GridStack and ApexCharts, with drag/resize layouts persisted
+                  per user and iframe widgets rendered safely via sanitized
+                  URLs.
+                </li>
+                <li>
+                  <strong
+                    >Applied a BFF pattern over the Spring Boot services</strong
+                  >
+                  — aggregating APIs, handling Keycloak auth, and fanning out
+                  parallel calls with CompletableFuture for dashboard
+                  view-models.
+                </li>
+              </ul>
+            </div>
+            <div class="metric-stack">
+              <div class="metric">
+                <div class="num">645</div>
+                <div class="lbl">tree nodes, O(n²) → O(1) lookups</div>
+              </div>
+              <div class="metric">
+                <div class="num">7</div>
+                <div class="lbl">issues caught in one pre-PR review pass</div>
+              </div>
+              <div class="metric">
+                <div class="num">multi</div>
+                <div class="lbl">tenant SaaS architecture</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="height: 20px"></div>
+          <div class="now">
+            <span class="blip"></span>
+            <span
+              >currently: migrating MaxMold's configuration modules to Angular
+              22 Signal Forms and httpResource()</span
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact">
+      <div class="wrap">
+        <div class="contact-grid">
+          <div>
+            <h2>Let's talk</h2>
+            <p class="pitch">
+              Open to full stack roles working on Angular, Spring Boot, or
+              systems that sit close to real hardware and real operations. Based
+              in Chennai — happy to work remote or on-site.
+            </p>
+          </div>
+          <div class="contact-list">
+            <a href="mailto:your.email@example.com"
+              >email <span class="arrow">↗</span></a
+            >
+            <a
+              href="https://github.com/yourusername"
+              target="_blank"
+              rel="noopener"
+              >github <span class="arrow">↗</span></a
+            >
+            <a
+              href="https://linkedin.com/in/yourusername"
+              target="_blank"
+              rel="noopener"
+              >linkedin <span class="arrow">↗</span></a
+            >
+          </div>
+        </div>
+        <div class="foot-meta">
+          <span>ESHWARAN — CHENNAI, IN</span>
+          <span>© 2026</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
